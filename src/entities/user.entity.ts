@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, Directive } from '@nestjs/graphql';
+import { ObjectType, Field, Int, Directive, ID } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
@@ -10,7 +10,7 @@ import * as bcrypt from 'bcrypt';
 export class User {
 
     @PrimaryGeneratedColumn('uuid')
-    @Field()
+    @Field(() => ID)
     id: string;
 
     @Column()
