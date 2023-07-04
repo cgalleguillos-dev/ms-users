@@ -3,28 +3,32 @@ import { UserService } from './user.service';
 import { User } from './entities';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { ProfileUserDto } from './dto/profile-user.dto';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) { }
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
-  }
 
+  // @UseGuards(JwtAuthGuard)
   @Query(() => [User], { name: 'users' })
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    return await this.userService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: string) {
-    return this.userService.findOne(id);
+  @Query(() => User, { name: 'usersById' })
+  async findOne(@Args('id') id: string) {
+    return await this.userService.findOne(id);
   }
 
+  //@UseGuards(JwtAuthGuard)
+  @Mutation(() => User)
+  async updateUser(@Args('userId') userId: string, @Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    return await this.userService.update(userId, updateUserInput);
+  }
 
-  @ResolveReference()
-  resolveReference(reference: { __typename: string; id: string }) {
-    return this.userService.findOne(reference.id);
+  //@UseGuards(JwtAuthGuard)
+  @Query(() => User, { name: 'profile' })
+  async profile(@Args('userId') userId: string): Promise<ProfileUserDto> {
+    return await this.userService.findOne(userId);
   }
 }
