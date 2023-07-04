@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserResolver } from './user.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,10 @@ import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/ap
 import { join } from 'path';
 import { User } from './entities';
 import { DataSourceConfig } from './config/orm.config';
+import { AuthResolver } from './auth/auth.resolver';
+import { AuthService } from './auth/auth.service';
+import { JwtStrategy } from './auth/jwt.strategy';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,8 +23,8 @@ import { DataSourceConfig } from './config/orm.config';
       autoSchemaFile: {
         federation: 2
       }
-    })
+    }),
   ],
-  providers: [UserResolver, UserService]
+  providers: [AuthResolver, AuthService, JwtStrategy, JwtService, UserResolver, UserService]
 })
 export class UserModule { }
