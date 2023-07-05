@@ -5,12 +5,13 @@ WORKDIR /app
 # Install app dependencies
 COPY . .
 
+EXPOSE 3001
+
 RUN npm install
 
 # build the app
 RUN npm run build
 
-EXPOSE 3001
 
 # run the migrations
 

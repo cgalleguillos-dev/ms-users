@@ -37,6 +37,7 @@ export class User {
 
     getInfoToToken() {
         return {
+            id: this.id,
             name: this.name,
             email: this.email
         }

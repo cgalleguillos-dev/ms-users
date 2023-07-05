@@ -5,7 +5,8 @@ test
 .eslintrc.js
 .prettierrc.js
 .dockerignore
-# docker-compose.yml
+Dockerfile
+docker-compose.yml
 package-lock.json
 README.md
 docs
